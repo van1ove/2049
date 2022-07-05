@@ -167,7 +167,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
 
 void MainWindow::moveUp()
 {
-
+//ZHOPA
 }
 
 void MainWindow::moveDown()
