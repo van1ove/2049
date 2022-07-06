@@ -23,6 +23,13 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("2048");
     setFixedSize(400, 400);
     generate();
+    createActions();
+    createMenu();
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+             gameSlots[i][j] = 1;
+        }
+    }
 }
 
 MainWindow::~MainWindow()
@@ -92,6 +99,45 @@ void MainWindow::changeColor(int i, int j)
         fields[i][j]->setStyleSheet("QLabel { background-color: #cdc1b5; color: black; font:20pt; font-weight:400; border-radius: 5px;}");
         break;
     }
+}
+
+void MainWindow::createMenu(){
+    fileMenu = menuBar()->addMenu(tr("&Game"));
+    fileMenu->addAction(saveAction);
+    fileMenu->addAction(loadAction);
+}
+void MainWindow::createActions(){
+    saveAction = new QAction(tr("&Save"));
+    connect(saveAction, &QAction::triggered, this, &MainWindow::showSaveMenu);
+    loadAction = new QAction(tr("&Load"));
+    connect(loadAction, &QAction::triggered, this, &MainWindow::showLoadMenu);
+}
+
+void MainWindow::showSaveMenu(){
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save Document"), QDir::currentPath(), tr("Text file (*.TXT)"));
+    std::string ActFileName = filename.toStdString();
+    std::ofstream out;
+    out.open(ActFileName);
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            out << gameSlots[i][j] << " ";
+        }
+    }
+    out.close();
+}
+
+void MainWindow::showLoadMenu(){
+    QString filename = QFileDialog::getOpenFileName(this, tr("Select load file"), "D:/", tr("TXT files (*.txt)"));
+    std::string ActFileName = filename.toStdString();
+
+    std::ifstream in;
+    in.open(ActFileName);
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            in >> gameSlots[i][j];
+        }
+    }
+    in.close();
 }
 
 void MainWindow::generate()
@@ -167,7 +213,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
 
 void MainWindow::moveUp()
 {
-//ZHOPA
+
 }
 
 void MainWindow::moveDown()

@@ -7,6 +7,12 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QKeyEvent>
+#include <QMenuBar>
+#include <QAction>
+#include <QFileDialog>
+#include <QDir>
+#include <QShortcut>
+#include <fstream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,6 +28,8 @@ public:
 
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
+    void createMenu();
+    void createActions();
 
 private:
     void changeColor(int x, int y);
@@ -38,5 +46,13 @@ private:
     QWidget *centralWidget;
     QGridLayout* grid;
     QLabel*  fields[4][4];
+    QMenu *fileMenu;
+    QAction *saveAction;
+    QAction *loadAction;
+    int dim = 4;
+    int gameSlots[4][4];
+private slots:
+    void showSaveMenu();
+    void showLoadMenu();
 };
 #endif // MAINWINDOW_H
