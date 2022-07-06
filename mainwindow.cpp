@@ -25,11 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
     generate();
     createActions();
     createMenu();
-    for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 4; j++){
-             gameSlots[i][j] = 1;
-        }
-    }
 }
 
 MainWindow::~MainWindow()
@@ -118,9 +113,13 @@ void MainWindow::showSaveMenu(){
     std::string ActFileName = filename.toStdString();
     std::ofstream out;
     out.open(ActFileName);
-    for(int i = 0; i < 5; i++){
-        for(int j = 0; j < 5; j++){
-            out << gameSlots[i][j] << " ";
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            if((fields[i][j]->text()).toStdString() == ""){
+                out << "NULL ";
+            }else{
+                out << (fields[i][j]->text()).toStdString() << " ";
+            }
         }
     }
     out.close();
@@ -129,15 +128,23 @@ void MainWindow::showSaveMenu(){
 void MainWindow::showLoadMenu(){
     QString filename = QFileDialog::getOpenFileName(this, tr("Select load file"), "D:/", tr("TXT files (*.txt)"));
     std::string ActFileName = filename.toStdString();
-
+    std::string tmp_string;
     std::ifstream in;
     in.open(ActFileName);
-    for(int i = 0; i < 5; i++){
-        for(int j = 0; j < 5; j++){
-            in >> gameSlots[i][j];
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            in >> tmp_string;
+            if(tmp_string != "NULL"){
+                fields[i][j]->setText(QString::fromStdString(tmp_string));
+                changeColor(i, j);
+            }else{
+                fields[i][j]->setText(QString::fromStdString(""));
+                changeColor(i, j);
+            }
         }
     }
     in.close();
+
 }
 
 void MainWindow::generate()

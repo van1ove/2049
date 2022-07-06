@@ -50,7 +50,6 @@ private:
     QAction *saveAction;
     QAction *loadAction;
     int dim = 4;
-    int gameSlots[4][4];
 private slots:
     void showSaveMenu();
     void showLoadMenu();
