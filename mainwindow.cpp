@@ -212,16 +212,44 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
             }
         }
     }
-
-    if (freeSpace){
+    if(freeSpace){
         generate();
     }
 }
 
 void MainWindow::moveUp()
 {
+    for(int i = 0; i < 4; ++i){
+        for(int j = 0; j < 3; ++j){
+            if(fields[j][i]->text() == ""){
+                int counter = j;
+                while(fields[j][i]->text() == "" && counter < 4){
+                    for(int k = j; k < 3; k++){
+                        fields[k][i]->setText(fields[k + 1][i]->text());
+                    }
+                    fields[3][i]->setText("");
+                    counter++;
+                }
+            }
+        }
+    }
 
+    for(int i = 0; i < 4; ++i){
+        for(int j = 0; j < 3; ++j){
+            if(fields[j][i]->text() == fields[j + 1][i]->text() && fields[j][i]->text() != ""){
+                int up = fields[j][i]->text().toInt();
+                int down = fields[j + 1][i]->text().toInt();
+                fields[j][i]->setText(QString::number(up + down));
+                for(int k = j + 1; k < 3; ++k){
+                    fields[k][i]->setText(fields[k + 1][i]->text());
+                }
+                fields[3][i]->setText("");
+            }
+        }
+    }
 }
+
+
 
 void MainWindow::moveDown()
 {
@@ -230,12 +258,10 @@ void MainWindow::moveDown()
 
 void MainWindow::moveLeft()
 {
-
 }
 
 void MainWindow::moveRight()
 {
-
 }
 
 void MainWindow::rotate()

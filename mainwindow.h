@@ -25,7 +25,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
     void createMenu();
@@ -41,6 +40,7 @@ private:
     void moveLeft();
     void moveRight();
     void rotate();
+    void shiftUp(int i, int j, int depth);
 
     Ui::MainWindow *ui;
     QWidget *centralWidget;
