@@ -253,15 +253,98 @@ void MainWindow::moveUp()
 
 void MainWindow::moveDown()
 {
+    for(int i = 0; i < 4; ++i){
+        for(int j = 3; j > 0; j--){
+            if(fields[j][i]->text() == ""){
+                int counter = 3 - j;
+                while(fields[j][i]->text() == "" && counter < 4){
+                    for(int k = j; k > 0; k--){
+                        fields[k][i]->setText(fields[k - 1][i]->text());
+                    }
+                    fields[0][i]->setText("");
+                    counter++;
+                }
+            }
+        }
+    }
 
+    for(int i = 0; i < 4; ++i){
+        for(int j = 3; j > 0; j--){
+            if(fields[j][i]->text() == fields[j - 1][i]->text() && fields[j][i]->text() != ""){
+                int up = fields[j][i]->text().toInt();
+                int down = fields[j - 1][i]->text().toInt();
+                fields[j][i]->setText(QString::number(up + down));
+                for(int k = j - 1; k > 0; --k){
+                    fields[k][i]->setText(fields[k - 1][i]->text());
+                }
+                fields[0][i]->setText("");
+            }
+        }
+    }
 }
 
 void MainWindow::moveLeft()
 {
+    for(int i = 0; i < 4; ++i){
+        for(int j = 0; j < 3; ++j){
+            if(fields[i][j]->text() == ""){
+                int counter = j;
+                while(fields[i][j]->text() == "" && counter < 4){
+                    for(int k = j; k < 3; k++){
+                        fields[i][k]->setText(fields[i][k + 1]->text());
+                    }
+                    fields[i][3]->setText("");
+                    counter++;
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i < 4; ++i){
+        for(int j = 0; j < 3; ++j){
+            if(fields[i][j]->text() == fields[i][j + 1]->text() && fields[i][j]->text() != ""){
+                int up = fields[i][j]->text().toInt();
+                int down = fields[i][j + 1]->text().toInt();
+                fields[i][j]->setText(QString::number(up + down));
+                for(int k = j + 1; k < 3; ++k){
+                    fields[i][k]->setText(fields[i][k + 1]->text());
+                }
+                fields[i][3]->setText("");
+            }
+        }
+    }
 }
 
 void MainWindow::moveRight()
 {
+    for(int i = 0; i < 4; ++i){
+        for(int j = 3; j > 0; j--){
+            if(fields[i][j]->text() == ""){
+                int counter = 3 - j;
+                while(fields[i][j]->text() == "" && counter < 4){
+                    for(int k = j; k > 0; k--){
+                        fields[i][k]->setText(fields[i][k - 1]->text());
+                    }
+                    fields[i][0]->setText("");
+                    counter++;
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i < 4; ++i){
+        for(int j = 3; j > 0; j--){
+            if(fields[i][j]->text() == fields[i][j - 1]->text() && fields[i][j]->text() != ""){
+                int up = fields[i][j]->text().toInt();
+                int down = fields[i][j - 1]->text().toInt();
+                fields[i][j]->setText(QString::number(up + down));
+                for(int k = j - 1; k > 0; --k){
+                    fields[i][k]->setText(fields[i][k - 1]->text());
+                }
+                fields[i][0]->setText("");
+            }
+        }
+    }
 }
 
 void MainWindow::rotate()
